@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-set -o pipefail
 
 # This script will change the default AWS credentials to the ones provided by the user stored in the conf file in the same directory as this script.
 # To run this script you must have the AWS CLI installed and configured with the default credentials.
@@ -9,14 +7,17 @@ set -o pipefail
 # To run this script go to ~/.bashrc and add the following line: alias aws_crd='source /path/to/change_aws_credentials.sh'
 # Then run the script by typing aws_crd in the terminal.
 
-# Get the path to the directory where this script is located.
-DIR="$(dirname "${BASH_SOURCE[0]}")"
 
-# Get the credentials from the conf file by the name provide by the user. 
-# Example: 
+# Example aws_credentials.conf file: 
 # [company]
 # aws_access_key_id=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 # aws_secret_access_key=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+set -e
+set -o pipefail
+
+DIR="$(dirname "${BASH_SOURCE[0]}")"
+
 
 echo "Choose the number of the credential from the conf file:"
 awk -F'[][]' '/\[/{print ++i ": " $2}' $DIR/aws_credentials.conf
